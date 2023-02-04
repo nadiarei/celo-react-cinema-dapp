@@ -89,6 +89,12 @@ To deploy smart contracts that the dapp will interact with by, check the followi
 npx hardhat compile
 ```
 
+or
+
+```sh
+npm run compile
+```
+
 ### Set env file
 
 - Rename file .env-example to .env
@@ -105,6 +111,12 @@ REACT_APP_PINATA_BEARER_KEY=""
 In the client directory
 ```sh
 npx hardhat run --network alfajores scripts/deploy.js
+```
+
+or
+
+```sh
+npm run deploy
 ```
 
 This command will update the src/contract files with the deployed smart contracts ABI and contract address.
