@@ -30,7 +30,7 @@ Every ticket qr code is auto-generated and stores by pinata api
 
 # Live Demo
 
-link
+[LINK TO DEMO](https://celo-react-cinema-dapp.onrender.com)
 
 # Tech Stack
 This Dapp uses the following tech stack:
