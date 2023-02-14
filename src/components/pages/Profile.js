@@ -83,7 +83,7 @@ const Profile = ({ cinemaContract, ticketNFTContract, address }) => {
         const search = minted.find((value) => value.ticket_id === ticket_id);
 
         if (search) {
-            return <Button variant="outline-dark" className="mx-1" size="sm" href={`https://explorer.celo.org/alfajores/token/${nftAddressFile.TicketNFT}/instance/${search.token_id}`} target="_blank">
+            return <Button variant="outline-dark" className="mx-1" size="sm" href={`https://explorer.celo.org/alfajores/token/${(nftAddressFile.TicketNFT).toLowerCase()}/instance/${search.token_id}`} target="_blank">
                 Watch minted ticket
             </Button>
         } else {

@@ -14,7 +14,7 @@ contract TicketNFT is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("CINEMACELO", "CNMC") { }
+    constructor() ERC721("CINEMATC", "CNMTC") { }
 
     struct minted_ticket{
         uint256 ticket_id;
