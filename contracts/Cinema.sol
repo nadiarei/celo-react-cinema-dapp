@@ -41,6 +41,8 @@ contract Cinema {
     mapping(uint256 => Film) internal Films_list;
     uint256 films_counter = 0;
 
+    mapping(address => bool) private isManager;
+    mapping(address => bool) private isClient;
     address[] public managers;
     mapping(address => uint256) managers_indices;
 
@@ -79,13 +81,7 @@ contract Cinema {
      * @return bool
      */
     function isNewManager(address user) public view returns (bool) {
-        for (uint256 i = 0; i < managers.length; i++) {
-            if (managers[i] == user) {
-                return false;
-            }
-        }
-
-        return true;
+        return !isManager[user];
     }
 
     /** @dev adds address to managers list
@@ -96,6 +92,7 @@ contract Cinema {
         require(isNewManager(user) == true, "User is already a manager");
 
         managers.push(user);
+        isManager[user] = true;
         managers_indices[user] = managers.length - 1;
     }
 
@@ -111,6 +108,7 @@ contract Cinema {
             user != address(0),
             "Address 0 is not a valid address for a manager"
         );
+        isManager[user] = false;
 
         uint256 managerIndex = managers_indices[user];
         uint256 lastManagerIndex = managers.length - 1;
@@ -138,13 +136,7 @@ contract Cinema {
      * @return bool
      */
     function isNewClient(address user) internal view returns (bool) {
-        for (uint256 i = 0; i < clients.length; i++) {
-            if (clients[i] == user) {
-                return false;
-            }
-        }
-
-        return true;
+        return !isClient[user];
     }
 
     /** @dev returns all clients that ever purchased tickets
@@ -214,10 +206,7 @@ contract Cinema {
         public
         payable
     {
-        // transfer tickets total price to owner
-        (bool success, ) = payable(owner).call{value: msg.value}("");
 
-        require(success, "Purchase is failed");
 
         // compare tickets total price with msg value
         uint256 total_ = 0;
@@ -227,6 +216,11 @@ contract Cinema {
         }
 
         require(total_ == msg.value, "Total price is incorrect");
+
+        // transfer tickets total price to owner
+        (bool success, ) = payable(owner).call{value: msg.value}("");
+
+        require(success, "Purchase is failed");
 
         // current timestamp
         uint256 timestamp = block.number * 100000;
@@ -249,6 +243,7 @@ contract Cinema {
 
         // if user is a new client, save his address
         if (isNewClient(user)) {
+            isClient[user] = true;
             clients.push(user);
         }
 
@@ -283,7 +278,7 @@ contract Cinema {
      * @param name_ name of a film
      * @param poster_img_ poster image of a film
      */
-    function addFilm(string memory name_, string memory poster_img_)
+    function addFilm(string calldata name_, string calldata poster_img_)
         public
         ownerOrManagerRole
     {
@@ -303,8 +298,8 @@ contract Cinema {
      */
     function updateFilm(
         uint256 id,
-        string memory name_,
-        string memory poster_img_
+        string calldata name_,
+        string calldata poster_img_
     ) public ownerOrManagerRole {
         require(
             bytes(Films_list[id].name).length != 0 &&
@@ -386,6 +381,7 @@ contract Cinema {
         public
         ownerOrManagerRole
     {
-        delete Films_list[film_id].sessions[id];
+        Films_list[film_id].sessions[id] = Films_list[film_id].sessions[Films_list[film_id].sessions.length - 1];
+        Films_list[film_id].sessions.pop();
     }
 }
