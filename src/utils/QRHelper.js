@@ -64,7 +64,7 @@ export const uploadTicketImage = async (address, ticket_id) => {
             }
         });
 
-        return res.data.IpfsHash;
+        return res.data?.IpfsHash;
     } catch (error) {
         console.log(error);
     }
@@ -72,7 +72,7 @@ export const uploadTicketImage = async (address, ticket_id) => {
 
 // upload json to pinata, result will be ipfs hash
 export const uploadJson = async (ticket_id, hash) => {
-    var data = JSON.stringify({
+    const data = JSON.stringify({
         "pinataOptions": {
             "cidVersion": 1
         },
@@ -84,14 +84,14 @@ export const uploadJson = async (ticket_id, hash) => {
         }
     });
 
-    var config = {
+    let config = {
         method: 'post',
         url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.REACT_APP_PINATA_BEARER_KEY}`
         },
-        data: data
+        data
     };
 
     const res = await axios(config);

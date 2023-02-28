@@ -10,7 +10,7 @@ export const getUserRole = async (cinemaContract, address) => {
 };
 
 export const allCurrentTickets = async (cinemaContract) => {
-    var tickets = [];
+    let tickets = [];
 
     try {
         tickets = await cinemaContract.methods.allCurrentTickets().call();
@@ -22,7 +22,7 @@ export const allCurrentTickets = async (cinemaContract) => {
 };
 
 export const getAllFilms = async (cinemaContract) => {
-    var films = [];
+    let films = [];
 
     try {
         films = await cinemaContract.methods.getAllFilms().call();
@@ -34,7 +34,7 @@ export const getAllFilms = async (cinemaContract) => {
 };
 
 export const allBookings = async (cinemaContract, user) => {
-    var bookings = [];
+    let bookings = [];
 
     try {
         bookings = await cinemaContract.methods.allBookings(user).call();
@@ -46,7 +46,7 @@ export const allBookings = async (cinemaContract, user) => {
 };
 
 export const allClients = async (cinemaContract) => {
-    var clients = [];
+    let clients = [];
 
     try {
         clients = await cinemaContract.methods.allClients().call();
@@ -58,7 +58,7 @@ export const allClients = async (cinemaContract) => {
 };
 
 export const allManagers = async (cinemaContract) => {
-    var managers = [];
+    let managers = [];
 
     try {
         managers = await cinemaContract.methods.allManagers().call();
@@ -70,7 +70,7 @@ export const allManagers = async (cinemaContract) => {
 };
 
 export const isNewManager = async (cinemaContract, address) => {
-    var result;
+    let result;
 
     try {
         result = await cinemaContract.methods.isNewManager(address).call();
@@ -187,7 +187,7 @@ export const updateFilm = async (cinemaContract, performActions, id, name, poste
 };
 
 export const purchaseBooking = async (cinemaContract, performActions, new_bookings, total) => {
-    var ids = [];
+    let ids = [];
     try {
         await performActions(async (kit) => {
             const { defaultAccount } = kit;
@@ -197,7 +197,7 @@ export const purchaseBooking = async (cinemaContract, performActions, new_bookin
 
             ids.push(parseInt(counter));
 
-            for (var i = new_bookings.length - 1; i--;)
+            for (let i = new_bookings.length - 1; i--;)
                 ids.push(ids[ids.length - 1] + 1);
 
             await cinemaContract.methods.purchaseBooking(defaultAccount, new_bookings).send({ from: defaultAccount, value: total }).then(async () => {

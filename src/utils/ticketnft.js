@@ -1,6 +1,6 @@
 
 export const mintsByUser = async (ticketNFTContract, address) => {
-    var mints = [];
+    let mints = [];
     
     try {
         mints = await ticketNFTContract.methods.mintsByUser(address).call();
