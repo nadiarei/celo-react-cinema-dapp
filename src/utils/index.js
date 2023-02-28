@@ -32,11 +32,7 @@ export const pluralize = (count, noun, suffix = 's') => `${count} ${noun}${count
 // finds object in array of object, if it is found returns true
 export const compareWithObjectArray = (array, obj) => {
     return array.some(element => {
-        if (JSON.stringify(element) === JSON.stringify(obj)) {
-            return true;
-        }
-
-        return false;
+        return JSON.stringify(element) === JSON.stringify(obj)
     });
 }
 
